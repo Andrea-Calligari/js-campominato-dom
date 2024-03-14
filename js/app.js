@@ -6,14 +6,7 @@ const selectDOMElement = document.getElementById('select');
 
 buttonDOMElement.addEventListener('click', startGame)
 
-
-
-
-
-
-
-
-
+const arrayPoints = [];
 
 
 
@@ -29,9 +22,9 @@ buttonDOMElement.addEventListener('click', startGame)
 function startGame() {
   gridDOMElement.innerHTML = ' ';
   const size = getSize();
-  generateRandomBombs(1, 16, 16)
+  const bombNumbers = generateRandomBombs(1, 100, 16)
   const numOfCellElement = size ** 2 // potenza di 2 => 8 * 8 
-  // console.log(colSelectDOMElement);
+  //  console.log(bombNumbers);
   for (let i = 0; i < numOfCellElement; i++) {
     const num = i + 1;
 
@@ -43,16 +36,27 @@ function startGame() {
     gridDOMElement.append(cellElement);
 
     cellElement.addEventListener('click', function () {
+
+      if (bombNumbers.includes(num) === true) {
+        cellElement.classList.add('bomb')
+        alert(`HAI PERSO TOTALIZZANDO PUNTI : ${counterPoint()}`)
+      } else if (bombNumbers.includes(num) === false) {
+        arrayPoints.push(num)
+        cellElement.classList.toggle('bg-dark')
+      }
+        // questo fa esattamente cio che fa l' if sopra
+        
+        // if (cellElement.classList.contains('bg-dark') === true) {
+        //   cellElement.classList.remove('bg-dark');
+        // } else {
+        //   cellElement.classList.add('bg-dark');
+        // }
+            
+
+      
+      
       console.log('click casell numero:', num);
-      cellElement.classList.toggle('bg-dark'); // questo fa esattamente cio che fa l' if sopra
-
-      // if (cellElement.classList.contains('bg-dark') === true) {
-      //   cellElement.classList.remove('bg-dark');
-      // } else {
-      //   cellElement.classList.add('bg-dark');
-      // }
-
-
+      console.log(arrayPoints)
     })
   }
 }
@@ -74,6 +78,7 @@ function generateRandomBombs(min, max, numberOfBomb) {
     const bombRandomNumber = parseInt(Math.floor(Math.random() * max) + min);
     if (arrayBombs.includes(bombRandomNumber) === false) {
       arrayBombs.push(bombRandomNumber)
+
     }
 
   }
@@ -81,10 +86,10 @@ function generateRandomBombs(min, max, numberOfBomb) {
   return arrayBombs
 }
 
+function counterPoint(){
+  const totalPoint = arrayPoints.length
+  return totalPoint
 
-
-
-
-
+}
 
 
